@@ -3,89 +3,79 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList,
+    Image,
     ActivityIndicator,
-    Dimensions,
-    TouchableOpacity,
+    FlatList
 } from 'react-native';
 import Header from '../Components/Header';
+import axios from "axios";
+import { Button } from 'react-native-paper'
+
+const Livescore = ({ score, index }) => {
+    const [scores, setScores] = useState([]);
+    const [loading, setloading] = useState(false);
+
+    const Data = () => {
+        setloading(true)
+        axios.get(`https://apiv3.apifootball.com/?action=get_events&APIkey=430259d3909224aeee90235bb15af8124d92b80f9e838dc3e7af4024e9bc4276&match_live=1`)
+            .then(res => {
+                setScores(res.data)
+                setloading(false)
+            }).catch(err => {
+                alert(err)
+                setloading(false)
+            })
+    }
+    useEffect(() => {
+        Data()
+    }, [])
 
 
-const width = Dimensions.get('window').width;
-
-
-const ScoreItem = ({ score, index }) => {
-    return (
-        <View style={styles.scoreItem}>
-            <Text style={styles.scoreText}>
-                {index + 1}. {score.name} - {score.score}
-            </Text>
-        </View>
-    );
-};
-
-
-const scores = [
-    {
-        name: 'barcha',
-        score: 25,
-    },
-    {
-        name: 'real M',
-        score: 18,
-    },
-    {
-        name: 'alahly',
-        score: 1,
-    },
-    {
-        name: 'Zamalek',
-        score: 119,
-    },
-    {
-        name: 'AFC',
-        score: 50,
-    },
-    {
-        name: 'SDA',
-        score: 30,
-    },
-]
-
-const Livescore = () => {
-    // const [scores, setScores] = useState([]);
-    // const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //     const getScores = async () => {
-    //         // Fetch scores data from your source here
-    //         const response = await fetch('your-source-url');
-    //         const data = await response.json();
-    //         setScores(data);
-    //         setLoading(false);
-    //     };
-
-    //     getScores();
-    // }, []);
-
-    // if (loading) {
-    //     return (
-    //         <View style={styles.loader}>
-    //             <ActivityIndicator size="large" color="#0000ff" />
-    //         </View>
-    //     );
-    // }
 
     return (
         <View style={styles.container}>
             <Header isBack={true} name={'نتائج المباريات'} />
+
             <FlatList
                 data={scores}
+                contentContainerStyle={{alignItems:"center",justifyContent:"center"}}
                 renderItem={({ item, index }) => (
-                    <ScoreItem score={item} index={index} />
+                    <View style={{
+                        width: '90%',
+                        backgroundColor: '#b8a6ff',
+                        borderRadius: 5,
+                        marginTop: 12,
+                        shadowColor: '#000',
+                        shadowOffset: { width: -4, height: 6 },
+                        shadowOpacity: 1,
+                        shadowRadius: 1,
+                        elevation: 20,
+                    }}>
+                        <View style={styles.subview}>
+                            <Text style={{ fontWeight: "bold", color: '#fff', }}>Match Date</Text>
+                            <Text style={{ fontWeight: "400", backgroundColor: "red", color: "#fff", padding: 3, margin: 5, borderRadius: 8 }}>{item.match_date} - {item.match_time}</Text>
+                        </View>
+                        <View style={styles.subview}>
+                            <Image style={styles.logoteam} source={{ uri: item.team_home_badge }} />
+                            <Text style={styles.score}>{item.match_hometeam_score}</Text>
+                            <Text style={styles.score}>:</Text>
+                            <Text style={styles.score}>{item.match_awayteam_score}</Text>
+                            <Image style={styles.logoteam} source={{ uri: item.team_away_badge }} />
+                        </View>
+                        <View style={styles.subview}>
+                            <Text style={styles.name}>{item.match_hometeam_name}</Text>
+                            <Text style={styles.name}>{item.match_awayteam_name}</Text>
+                        </View>
+                        <Button mode='contained' style={{ width: "90%", borderRadius: 8, alignSelf: "center", margin: 5 }}>
+                            قريبا سيتوفر مشاهدة المباريات
+                        </Button>
+                    </View>
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
+
+
+
         </View>
     );
 };
@@ -93,24 +83,32 @@ const Livescore = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
-    scoreItem: {
-        backgroundColor: '#FFF',
-        padding: 10,
+    subview: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-around",
+        alignItems: "center",
+    },
+    logoteam: {
+        width: 100,
+        height: 100,
         margin: 5,
-        borderRadius: 5,
-        width: width * 0.9,
+        resizeMode:"contain"
     },
-    scoreText: {
-        fontSize: 16,
+    score: {
+        fontWeight: "bold",
+        color: "#fff",
+        fontSize: 23
     },
-    loader: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    name: {
+        fontWeight: "700",
+        color: "#fff",
+        fontSize: 17,
+        margin: 7
     },
 });
 

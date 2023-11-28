@@ -48,9 +48,9 @@ const SetuserLeague = () => {
             />
             {load ? <ActivityIndicator color={'red'} size={'large'} />
                 :
-                <TouchableOpacity onPress={() => { Update(fnid.id) }} style={[styles.user, { backgroundColor: fnid.team_leader == 1 ? 'green' : 'gray' }]}>
+                <TouchableOpacity onPress={() => { Update(fnid.id) }} style={[styles.user, { backgroundColor: fnid. leagues_leader == 1 ? 'green' : 'gray' }]}>
                     <Text style={{ fontWeight: 'bold', color: '#fff' }}>{fnid.name}</Text>
-                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{fnid.team_leader == 1 ? 'هذا صاحب دوري بالفعل' : 'ليس صاحب دوري'}</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{fnid. leagues_leader == 1 ? 'هذا صاحب دوري بالفعل' : 'ليس صاحب دوري'}</Text>
                 </TouchableOpacity>
             }
             <Button

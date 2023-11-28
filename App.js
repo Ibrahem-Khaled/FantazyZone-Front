@@ -63,7 +63,7 @@ function Route() {
 export default function App() {
 
   const [fontsLoaded] = useFonts({
-    'Reem': require('./assets/fonts/ReemKufi-VariableFont_wght.ttf')
+    'Reem': require('./assets/fonts/Al-Hadith2-Regular/Al-Hadith2-Regular.ttf')
   });
 
   if (!fontsLoaded) {

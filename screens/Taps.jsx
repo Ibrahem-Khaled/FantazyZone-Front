@@ -21,7 +21,7 @@ export default function Taps() {
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: 'tomato',
+                tabBarActiveTintColor: '#a48cff',
                 tabBarInactiveTintColor: 'gray',
                 headerShown: false,
             })}

@@ -4,15 +4,17 @@ import Header from '../Components/Header'
 import { Ionicons } from '@expo/vector-icons'
 const ComplaintsSuggests = () => {
     return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "space-between" }}>
+        <View style={{ flex: 1, alignItems: "center" }}>
             <Header isBack={true} name={'الشكاوي والمقترحات'} />
-            <Text style={styles.txt}>
-                للاشتراك في الدورى او الكأس
-                والشكاوى والمقترحات . اضغط هنا
-            </Text>
-            <TouchableOpacity onPress={() => { Linking.openURL('https://www.facebook.com/profile.php?id=61553719622178&mibextid=2JQ9oc') }}>
-                <Ionicons style={{ margin: 10 }} name="ios-logo-facebook" size={50} color="#4383fa" />
-            </TouchableOpacity>
+            <View style={{ flex: 1, justifyContent: "space-around",alignItems:"center",width:"80%",alignSelf:"center" }}>
+                <Text style={styles.txt}>
+                    للاشتراك في الدورى او الكأس
+                    والشكاوى والمقترحات . اضغط هنا
+                </Text>
+                <TouchableOpacity onPress={() => { Linking.openURL('https://www.facebook.com/profile.php?id=61553719622178&mibextid=2JQ9oc') }}>
+                    <Ionicons style={{ margin: 10 }} name="ios-logo-facebook" size={100} color="#4383fa" />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
