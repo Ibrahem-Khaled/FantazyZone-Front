@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import { Auth } from '../AuthContext/Auth'
@@ -43,29 +43,26 @@ const Index = () => {
                         <Text style={styles.txt}>من يمكنه انشاء دوري</Text>
                     </TouchableOpacity>
                 }
+                {!user.leagues_leader == 1 ? null :
+                    <TouchableOpacity
+                        style={styles.btn}
+                        onPress={() => {
+                            nav.navigate('showLeague', {
+                                id: user.id
+                            })
+                        }}>
+                        <Text style={styles.txt}> تعديل الدوريات الخاصة بك</Text>
+
+                    </TouchableOpacity>}
             </View>
-            <Button
-                mode='contained'
-                onPress={() => { nav.navigate('match') }}
-                style={{ width: "70%", height: 50, backgroundColor: 'red', borderRadius: 8, justifyContent: "center" }}>
-                مواجهات الفرق
-            </Button>
-            {!user.leagues_leader == 1 ? null :
-                <Button
-                    mode='contained'
-                    onPress={() => {
-                        nav.navigate('showLeague', {
-                            id: user.id
-                        })
-                    }}
-                    style={{ width: "70%", height: 50, backgroundColor: 'red', borderRadius: 8, justifyContent: "center", margin: 5 }}>
-                    تعديل الدوريات الخاصة بك
-                </Button>}
+
             {loading ? <ActivityIndicator size={"large"} color={'red'} />
                 :
                 <FlatList
                     data={data}
                     keyExtractor={(item) => item.id}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
                     renderItem={({ item }) =>
                         <TouchableOpacity onPress={() => {
                             nav.navigate('leagueTeam', {
@@ -73,6 +70,7 @@ const Index = () => {
                                 name: item.name,
                             })
                         }} style={styles.league}>
+                            <Image style={{ width: 70, height: 70 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/12567/12567031.png' }} />
                             <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>دوري - {item.name}</Text>
                         </TouchableOpacity>
                     }
@@ -89,9 +87,9 @@ export default Index
 
 const styles = StyleSheet.create({
     main: {
-        width: "99%",
+        width: "100%",
         alignItems: "center",
-        alignSelf: "center",
+        flexWrap: "wrap",
         margin: 8,
         flexDirection: "row",
         justifyContent: "space-evenly"
@@ -103,20 +101,31 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     btn: {
-        width: "45%",
+        width: "47%",
         height: 50,
-        backgroundColor: "green",
-        alignItems: "center",
-        borderRadius: 10,
-        justifyContent: "center"
-    },
-    league: {
-        width: 330,
-        height: 50,
-        backgroundColor: "gray",
+        backgroundColor: "#8cffa4",
         alignItems: "center",
         borderRadius: 10,
         justifyContent: "center",
-        margin: 5
+        margin: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: -4, height: 6 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        elevation: 20,
+    },
+    league: {
+        width: 150,
+        height: 170,
+        backgroundColor: "#8caeff",
+        alignItems: "center",
+        borderRadius: 10,
+        justifyContent: "space-around",
+        margin: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: -4, height: 6 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        elevation: 20,
     },
 })

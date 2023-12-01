@@ -21,6 +21,7 @@ import { useFonts } from 'expo-font';
 import ShowLeague from './screens/Leagus/editLeague/Show';
 import EditLeague from './screens/Leagus/editLeague/EditLeague';
 import ShowTeam from './screens/Team/Edit/ShowTeam';
+import SetUserTeamLeader from './screens/Leagus/SetuserTeamleader';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,7 @@ function Route() {
             <Stack.Screen name="showLeague" component={ShowLeague} />
             <Stack.Screen name="editLeague" component={EditLeague} />
             <Stack.Screen name="showTeam" component={ShowTeam} />
+            <Stack.Screen name="setUserTeamLeader" component={SetUserTeamLeader} />
           </>
         }
       </Stack.Navigator>

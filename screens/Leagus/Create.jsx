@@ -61,7 +61,7 @@ const Create = () => {
                 onChangeText={text => setPlayer(text)}
             />
             <View style={styles.box}>
-                <Text style={{ fontSize: 17, fontWeight: 'bold', }}>هل تريد الفرق التي بداخل الدوري بها كابتن</Text>
+                <Text style={{ fontSize: 17, fontWeight: 'bold', }}> كابتن</Text>
                 <Checkbox
                     status={checked ? 'checked' : 'unchecked'}
                     onPress={() => {
@@ -70,7 +70,7 @@ const Create = () => {
                 />
             </View>
             <View style={styles.box}>
-                <Text style={{ fontSize: 17, fontWeight: 'bold', }}>هل تريد الفرق بداخل الدوري بها دكة</Text>
+                <Text style={{ fontSize: 17, fontWeight: 'bold', }}> دكة</Text>
                 <Checkbox
                     status={spare ? 'checked' : 'unchecked'}
                     onPress={() => {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     box: {
         flexDirection: 'row',
         width: '90%',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         margin: 5,
         alignSelf: "center"

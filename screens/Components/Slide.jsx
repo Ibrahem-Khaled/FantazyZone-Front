@@ -14,8 +14,6 @@ export default function Slide() {
     return (
         <SliderBox
             images={images}
-            onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-            currentImageEmitter={index => console.warn(`current pos is: ${index}`)}
             sliderBoxHeight={200}
             dotColor="#8caeff"
             inactiveDotColor="#90A4AE"

@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import { Auth } from '../AuthContext/Auth'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import { Button } from 'react-native-paper'
 
 const TeamsLeague = ({ route }) => {
     const { id, name } = route.params
@@ -20,7 +19,7 @@ const TeamsLeague = ({ route }) => {
             .then(res => {
                 setData(res.data.team)
                 setloading(false)
-            }).catch(err=>{
+            }).catch(err => {
                 alert('هناك خطأ')
             })
     }
@@ -33,17 +32,26 @@ const TeamsLeague = ({ route }) => {
     return (
         <View style={{ flex: 1, alignItems: "center" }}>
             <Header isBack={true} name={`فرق الدوري ${name}`} />
-            {user.team_leader == 0 ? null
-                :
-                <TouchableOpacity onPress={() => {
-                    nav.navigate('createTeam', {
-                        id: id
-                    })
-                }} style={styles.btn}>
-                    <Text style={styles.txt}>انشاء فريق لهذا الدوري</Text>
-                </TouchableOpacity>
-            }
-            
+            <View style={styles.main}>
+                {user.team_leader == 0 ? null
+                    :
+                    <TouchableOpacity onPress={() => {
+                        nav.navigate('createTeam', {
+                            id: id
+                        })
+                    }} style={styles.btn}>
+                        <Text style={styles.txt}>انشاء فريق لهذا الدوري</Text>
+                    </TouchableOpacity>
+                }
+                {user.leagues_leader == 0 ? null
+                    :
+                    <TouchableOpacity onPress={() => {
+                        nav.navigate('setUserTeamLeader')
+                    }} style={styles.btn}>
+                        <Text style={styles.txt}>من يمكنه انشاء فريق</Text>
+                    </TouchableOpacity>
+                }
+            </View>
             {loading ? <ActivityIndicator />
                 :
                 <FlatList
@@ -56,8 +64,11 @@ const TeamsLeague = ({ route }) => {
                                 name: item.name,
                             })
                         }} style={styles.league}>
-                            <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>فريق - {item.name}</Text>
-                            <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>النقاط - {item.points}</Text>
+                            <Image style={{ width: 70, height: 70 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/2257/2257060.png' }} />
+                            <View style={{ height: "100%", alignItems: "center", justifyContent: "space-evenly" }}>
+                                <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>فريق - {item.name}</Text>
+                                <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>النقاط - {item.points}</Text>
+                            </View>
                         </TouchableOpacity>
                     }
                 />
@@ -71,12 +82,12 @@ export default TeamsLeague
 
 const styles = StyleSheet.create({
     main: {
-        width: "99%",
+        width: "100%",
         alignItems: "center",
-        alignSelf: "center",
         margin: 8,
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        flexWrap: 'wrap'
     },
     txt: {
         fontWeight: "bold",
@@ -85,21 +96,27 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     btn: {
-        width: "55%",
+        width: "48%",
         height: 50,
-        backgroundColor: "green",
+        backgroundColor: "#8cffa4",
         alignItems: "center",
         borderRadius: 10,
         justifyContent: "center",
-        margin: 5
+        margin: 2
     },
     league: {
         width: 330,
-        height: 50,
-        backgroundColor: "gray",
+        height: 175,
+        backgroundColor: "#a48cff",
         alignItems: "center",
         borderRadius: 10,
-        justifyContent: "center",
-        margin: 5
+        justifyContent: "space-around",
+        margin: 5,
+        flexDirection: "row",
+        shadowColor: '#000',
+        shadowOffset: { width: -4, height: 6 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        elevation: 20,
     },
 })
