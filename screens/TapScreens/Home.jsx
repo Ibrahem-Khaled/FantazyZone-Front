@@ -22,7 +22,7 @@ const Buttons = [
     },
     {
         name: 'انشاء دوريات الكاس',
-        navigation: 'League',
+        navigation: 'pages',
         icon: 'game-controller',
         color: '#fff',
     },

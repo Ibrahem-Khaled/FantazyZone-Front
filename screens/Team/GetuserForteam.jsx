@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import axios from 'axios'
@@ -52,10 +52,11 @@ const GetuserForteam = ({ route }) => {
                     data={data}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
-                        <View style={styles.main}>
+                        <TouchableOpacity style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fef482' }]}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.name}>{item.points}</Text>
-                        </View>
+                            {item.captin !== 1 ? null : <Image style={{ width: 60, height: 60 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4978/4978025.png' }} />}
+                        </TouchableOpacity>
                     }
                 />
             }
@@ -72,7 +73,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: "row",
         height: 55,
-        backgroundColor: "#ff6b7a",
         margin: 3,
         borderRadius: 8,
         justifyContent: 'space-around'

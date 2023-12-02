@@ -6,7 +6,9 @@ import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import { Button } from 'react-native-paper'
 
-const Index = () => {
+const Index = ({ route }) => {
+
+    const { name, id } = route.params
 
     const { user } = useContext(Auth)
     const nav = useNavigation()
@@ -15,13 +17,12 @@ const Index = () => {
     const [loading, setloading] = useState(false)
     const Fechleague = () => {
         setloading(true)
-        axios.get('https://fantasyzon.com/api/get/league')
+        axios.get(`https://fantasyzon.com/api/get/league/${id}`)
             .then(res => {
-                setData(res.data)
+                setData(res.data.league)
                 setloading(false)
             })
     }
-
     useEffect(() => {
         Fechleague()
     }, [])
@@ -29,12 +30,16 @@ const Index = () => {
 
     return (
         <View style={{ flex: 1, alignItems: "center" }}>
-            <Header isBack={true} name={'الدوريات والكأس'} />
+            <Header isBack={true} name={`صفحة ${name}`} />
             <View style={styles.main}>
                 {user.leagues_leader == 0 ? null
                     :
-                    <TouchableOpacity onPress={() => { nav.navigate('createLeague') }} style={styles.btn}>
-                        <Text style={styles.txt}>انشاء دوري</Text>
+                    <TouchableOpacity onPress={() => {
+                        nav.navigate('createLeague', {
+                            pageid: id
+                        })
+                    }} style={styles.btn}>
+                        <Text style={styles.txt}>انشاء دوري او كاس</Text>
                     </TouchableOpacity>
                 }
                 {user.is_admin == 0 ? null
@@ -70,8 +75,8 @@ const Index = () => {
                                 name: item.name,
                             })
                         }} style={styles.league}>
-                            <Image style={{ width: 70, height: 70 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/12567/12567031.png' }} />
-                            <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>دوري - {item.name}</Text>
+                            <Image style={{ width: 70, height: 70 }} source={{ uri: item.status !== 'league' ? 'https://cdn-icons-png.flaticon.com/128/7960/7960328.png' : 'https://cdn-icons-png.flaticon.com/128/12567/12567031.png' }} />
+                            <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>{item.status == 'league' ? 'دوري' : 'كاس'} - {item.name}</Text>
                         </TouchableOpacity>
                     }
                 />
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
     btn: {
         width: "47%",
         height: 50,
-        backgroundColor: "#8cffa4",
+        backgroundColor: "#b5dffe",
         alignItems: "center",
         borderRadius: 10,
         justifyContent: "center",

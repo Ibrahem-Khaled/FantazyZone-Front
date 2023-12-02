@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
                 setloading(false)
                 alert('success')
                 setUserinfo({})
-                
+
             })
             .catch(err => {
                 alert(err)

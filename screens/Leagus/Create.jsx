@@ -5,13 +5,17 @@ import axios from 'axios'
 import { Checkbox, TextInput } from 'react-native-paper'
 import { Auth } from '../AuthContext/Auth'
 
-const Create = () => {
+const Create = ({ route }) => {
+
+    const { pageid } = route.params
+
     const [name, setName] = useState('')
     const [player, setPlayer] = useState(0)
     const [team, setTeam] = useState(0)
     const { user } = useContext(Auth)
     const [checked, setChecked] = useState(false);
     const [spare, setSpare] = useState(false);
+    const [type, setType] = useState(false);
 
 
     function Create() {
@@ -21,7 +25,9 @@ const Create = () => {
             max_player_number: player,
             user_id: user.id,
             is_capten: checked,
-            is_spare: spare
+            is_spare: spare,
+            page_id: pageid,
+            status: type == false ? 'league' : 'kass',
         })
             .then(function (response) {
                 alert('Done!')
@@ -75,6 +81,15 @@ const Create = () => {
                     status={spare ? 'checked' : 'unchecked'}
                     onPress={() => {
                         setSpare(!spare);
+                    }}
+                />
+            </View>
+            <View style={styles.box}>
+                <Text style={{ fontSize: 17, fontWeight: 'bold', }}> كاس</Text>
+                <Checkbox
+                    status={type ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                        setType(!type);
                     }}
                 />
             </View>

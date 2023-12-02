@@ -22,6 +22,8 @@ import ShowLeague from './screens/Leagus/editLeague/Show';
 import EditLeague from './screens/Leagus/editLeague/EditLeague';
 import ShowTeam from './screens/Team/Edit/ShowTeam';
 import SetUserTeamLeader from './screens/Leagus/SetuserTeamleader';
+import CreatePage from './screens/page/CreatePage';
+import Pages from './screens/page/Pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +55,8 @@ function Route() {
             <Stack.Screen name="editLeague" component={EditLeague} />
             <Stack.Screen name="showTeam" component={ShowTeam} />
             <Stack.Screen name="setUserTeamLeader" component={SetUserTeamLeader} />
+            <Stack.Screen name="createPage" component={CreatePage} />
+            <Stack.Screen name="pages" component={Pages} />
           </>
         }
       </Stack.Navigator>

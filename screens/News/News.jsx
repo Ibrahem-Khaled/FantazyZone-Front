@@ -45,7 +45,7 @@ const News = () => {
                     alignItems: "center",
                     alignSelf: "center",
                     justifyContent: "center",
-                    backgroundColor: 'green',
+                    backgroundColor: '#9be5fe',
                     borderRadius: 10,
                     margin: 5
                 }}>
