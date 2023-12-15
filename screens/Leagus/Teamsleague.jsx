@@ -4,20 +4,25 @@ import Header from '../Components/Header'
 import { Auth } from '../AuthContext/Auth'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 const TeamsLeague = ({ route }) => {
     const { id, name } = route.params
-
+    let sort = 0
     const { user } = useContext(Auth)
     const nav = useNavigation()
 
     const [data, setData] = useState([])
     const [loading, setloading] = useState(false)
+
+
     const Fechleague = () => {
         setloading(true)
         axios.get(`https://fantasyzon.com/api/get/league/team/${id}`)
             .then(res => {
-                setData(res.data.team)
+                const data = res.data.team
+                const sortedData = [...data].sort((a, b) => b.points - a.points);
+                setData(sortedData);
                 setloading(false)
             }).catch(err => {
                 alert('هناك خطأ')
@@ -28,9 +33,10 @@ const TeamsLeague = ({ route }) => {
         Fechleague()
     }, [])
 
+    const tableHead = ['الترتيب', 'اسم الفريق', 'النقاط', 'اجمالي النقاط']
 
     return (
-        <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={{ flex: 1 }}>
             <Header isBack={true} name={`فرق الدوري ${name}`} />
             <View style={styles.main}>
                 {user.team_leader == 0 ? null
@@ -52,7 +58,7 @@ const TeamsLeague = ({ route }) => {
                     </TouchableOpacity>
                 }
             </View>
-            {loading ? <ActivityIndicator />
+            {/* {loading ? <ActivityIndicator />
                 :
                 <FlatList
                     data={data}
@@ -72,6 +78,42 @@ const TeamsLeague = ({ route }) => {
                         </TouchableOpacity>
                     }
                 />
+            } */}
+            <View style={{
+                width: '99%',
+                borderWidth: 1.5,
+                alignSelf: 'center',
+                borderRadius: 3,
+                borderColor: '#c8e1ff',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                {tableHead.map((item, index) => {
+                    return (
+                        <Text style={{ fontWeight: 'bold', margin: 6, maxWidth: '23%', textAlign: 'center' }}>{item}</Text>
+                    )
+                })}
+            </View>
+            {loading ? <ActivityIndicator />
+                :
+                <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) =>
+                        <TouchableOpacity onPress={() => {
+                            nav.navigate('getUserforTeam', {
+                                id: item.id,
+                                name: item.name,
+                            })
+                        }} style={styles.league}>
+                            <Text style={styles.dataText}>{++sort}</Text>
+                            <Text style={styles.dataText}>{item.name}</Text>
+                            <Text style={styles.dataText}>{item.current_points}</Text>
+                            <Text style={styles.dataText}>{item.points}</Text>
+                        </TouchableOpacity>
+                    }
+                />
             }
         </View>
     )
@@ -87,7 +129,8 @@ const styles = StyleSheet.create({
         margin: 8,
         flexDirection: "row",
         justifyContent: "space-evenly",
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        alignSelf: 'center'
     },
     txt: {
         fontWeight: "bold",
@@ -105,12 +148,12 @@ const styles = StyleSheet.create({
         margin: 2
     },
     league: {
-        width: 330,
-        height: 175,
+        width: '99%',
+        alignSelf: 'center',
         backgroundColor: "#a48cff",
         alignItems: "center",
-        borderRadius: 10,
-        justifyContent: "space-around",
+        borderRadius: 5,
+        justifyContent: "space-between",
         margin: 5,
         flexDirection: "row",
         shadowColor: '#000',
@@ -118,5 +161,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 1,
         elevation: 20,
+    },
+    dataText: {
+        fontWeight: "bold",
+        color: "#fff",
+        fontSize: 18,
+        textAlign: 'center',
+        maxWidth: '30%',
+        marginTop: 3,
+        marginBottom: 3,
     },
 })

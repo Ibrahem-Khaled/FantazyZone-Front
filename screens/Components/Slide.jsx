@@ -20,13 +20,9 @@ export default function Slide() {
             autoplay={true}
             disableOnPress
             circleLoop
-            autoplayInterval={2000}
+            autoplayInterval={4000}
             ImageComponentStyle={{borderRadius: 15, width: '97%', margin:5}}
             activeOpacity={0.5}
         />
     )
 }
-
-const styles = StyleSheet.create({
-
-})

@@ -39,7 +39,7 @@ const SetUserTeamLeader = () => {
 
     return (
         <View>
-            <Header isBack={true} name={'من يمكنه انشاء دوري'} />
+            <Header isBack={true} name={'من يمكنه انشاء فريق'} />
             <TextInput
                 placeholder='ادخل اي دي الاعب المراد'
                 keyboardType='number-pad'

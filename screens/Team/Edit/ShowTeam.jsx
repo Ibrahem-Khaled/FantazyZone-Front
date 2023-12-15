@@ -18,6 +18,7 @@ const ShowTeam = ({ route }) => {
     }
 
     const [fnid, setFnid] = useState(0)
+    const [data, setData] = useState({})
     const [load, setLoad] = useState(false)
 
     function Get() {
@@ -28,7 +29,7 @@ const ShowTeam = ({ route }) => {
                 if (Object.keys(data).length == 0) {
                     return alert('هذا الرقم غير مسجل من قبل')
                 }
-                setFnid(data)
+                setData(data)
                 console.log(data)
                 setLoad(false)
             }).catch(err => {
@@ -39,7 +40,7 @@ const ShowTeam = ({ route }) => {
 
     return (
         <View>
-            <Header isBack={true} name={'من يمكنه انشاء دوري'} />
+            <Header isBack={true} name={'اضافة لعيبة'} />
             <TextInput
                 placeholder='ادخل اي دي الاعب المراد'
                 keyboardType='number-pad'
@@ -48,10 +49,10 @@ const ShowTeam = ({ route }) => {
             />
             {load ? <ActivityIndicator color={'red'} size={'large'} />
                 :
-                <TouchableOpacity onPress={() => { fnid.team_id !== null ? alert('هذا في فريق من فضلك ادخل FN ID اخر') : Update(fnid.id) }}
-                    style={[styles.user, { backgroundColor: fnid.team_id !== null ? 'green' : 'gray' }]}>
-                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{fnid.name}</Text>
-                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{fnid.team_leader !== null ? 'هذا بالفعل في فريق' : 'ليس  في فريق'}</Text>
+                <TouchableOpacity onPress={() => { data.team_id !== null ? alert('هذا في فريق من فضلك ادخل FN ID اخر') : Update(data.id) }}
+                    style={[styles.user, { backgroundColor: data.team_id !== null ? 'green' : 'gray' }]}>
+                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{data.name}</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#fff' }}>{data.team_id !== null ? 'هذا بالفعل في فريق' : 'ليس  في فريق'}</Text>
                 </TouchableOpacity>
             }
             <Button
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 60,
         margin: 5,
+        backgroundColor:'gray',
         alignSelf: 'center',
         borderRadius: 8,
         alignItems: 'center',

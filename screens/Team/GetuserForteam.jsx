@@ -17,10 +17,18 @@ const GetuserForteam = ({ route }) => {
         setLoad(true)
         axios.get(`https://fantasyzon.com/api/get/teams/${id}`)
             .then(res => {
-                setData(res.data.users)
+                let users = res.data.users
+                setData(users)
                 setTeam(res.data)
-                console.log(res.data)
+                const sum = users.reduce((acc, item) => acc + item.points, 0);
                 setLoad(false)
+                axios.post(`https://fantasyzon.com/api/update/teams/${id}`, {
+                    points: sum
+                }).then(res => {
+                    console.log('done')
+                }).catch(err => {
+                    console.error(err)
+                })
             })
             .catch(err => {
                 alert('هناك خطا')
@@ -52,10 +60,10 @@ const GetuserForteam = ({ route }) => {
                     data={data}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
-                        <TouchableOpacity style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fef482' }]}>
+                        <TouchableOpacity style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.name}>{item.points}</Text>
-                            {item.captin !== 1 ? null : <Image style={{ width: 60, height: 60 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4978/4978025.png' }} />}
+                            {item.captin !== 1 ? null : <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4978/4978025.png' }} />}
                         </TouchableOpacity>
                     }
                 />
@@ -80,6 +88,6 @@ const styles = StyleSheet.create({
     name: {
         fontWeight: 'bold',
         fontSize: 18,
-        color: '#fff06b'
+        color: '#000'
     },
 })

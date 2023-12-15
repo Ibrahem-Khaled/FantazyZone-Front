@@ -32,13 +32,13 @@ const Pages = () => {
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
             <Header name={"الصفحات"} isBack={true} />
-            {user.is_admin !== 0 ? null
+            {user.is_admin == 0 ? null
                 :
                 <Button
                     onPress={() => { nav.navigate('createPage') }}
                     textColor='#fff'
                     style={{ backgroundColor: '#9bd5fe', width: "65%", borderRadius: 10, justifyContent: 'center', height: 50, margin: 5 }}
-                >انشاء فريق
+                >انشاء صفحة
                 </Button>}
             <ScrollView>
                 {load ? <ActivityIndicator size={'larg'} /> : data.map((item, index) => {
