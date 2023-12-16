@@ -60,7 +60,10 @@ const GetuserForteam = ({ route }) => {
                     data={data}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
-                        <TouchableOpacity style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
+                        <TouchableOpacity
+                            onPress={() => { alert('captin') }}
+                            onLongPress={() => { alert('deka') }}
+                            style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.name}>{item.points}</Text>
                             {item.captin !== 1 ? null : <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4978/4978025.png' }} />}

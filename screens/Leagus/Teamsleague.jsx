@@ -4,7 +4,6 @@ import Header from '../Components/Header'
 import { Auth } from '../AuthContext/Auth'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 const TeamsLeague = ({ route }) => {
     const { id, name } = route.params
@@ -58,27 +57,25 @@ const TeamsLeague = ({ route }) => {
                     </TouchableOpacity>
                 }
             </View>
-            {/* {loading ? <ActivityIndicator />
-                :
-                <FlatList
-                    data={data}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) =>
-                        <TouchableOpacity onPress={() => {
-                            nav.navigate('getUserforTeam', {
-                                id: item.id,
-                                name: item.name,
-                            })
-                        }} style={styles.league}>
-                            <Image style={{ width: 70, height: 70 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/2257/2257060.png' }} />
-                            <View style={{ height: "100%", alignItems: "center", justifyContent: "space-evenly" }}>
-                                <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>فريق - {item.name}</Text>
-                                <Text style={{ fontWeight: "bold", color: "#fff", fontSize: 18 }}>النقاط - {item.points}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    }
-                />
-            } */}
+            <TouchableOpacity
+                onPress={() => {
+                    nav.navigate('match', {
+                        id: id,
+                        name: name
+                    })
+                }}
+                style={{
+                    width: '90%',
+                    height: 50,
+                    borderRadius: 6,
+                    alignSelf: "center",
+                    alignItems: 'center',
+                    justifyContent: "center",
+                    backgroundColor: '#fe8995',
+                    margin: 4
+                }}>
+                <Text style={styles.txt}>مواجهات - Vs - الفرق</Text>
+            </TouchableOpacity>
             <View style={{
                 width: '99%',
                 borderWidth: 1.5,
@@ -148,12 +145,12 @@ const styles = StyleSheet.create({
         margin: 2
     },
     league: {
-        width: '99%',
+        width: '98%',
         alignSelf: 'center',
         backgroundColor: "#a48cff",
         alignItems: "center",
         borderRadius: 5,
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         margin: 5,
         flexDirection: "row",
         shadowColor: '#000',
@@ -170,5 +167,6 @@ const styles = StyleSheet.create({
         maxWidth: '30%',
         marginTop: 3,
         marginBottom: 3,
+        margin: 3
     },
 })

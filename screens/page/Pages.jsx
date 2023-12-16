@@ -70,5 +70,3 @@ const Pages = () => {
 }
 
 export default Pages
-
-const styles = StyleSheet.create({})
