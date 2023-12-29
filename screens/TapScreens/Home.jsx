@@ -1,11 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useState ,useEffect} from 'react'
 import Header from '../Components/Header'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { Auth } from '../AuthContext/Auth'
 import Slide from '../Components/Slide'
-
+import axios from 'axios';
 
 const Buttons = [
     {
@@ -38,12 +38,28 @@ const Buttons = [
 export default function Home() {
     const { user } = useContext(Auth)
     const nav = useNavigation()
-    console.log(user.name)
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://fantasyzon.com/api/get/posts');
+                // Assuming the response data is an array
+                const lastFiveData = response.data.slice(-5);
+                setData(lastFiveData);
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <View style={{ flex: 1 }}>
             <Header name={'الرئيسية'} Fname={user.name} />
-
-            <Slide />
+            <Slide data={data} />
             <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}>
                 {Buttons.map((item, index) => {
                     return (

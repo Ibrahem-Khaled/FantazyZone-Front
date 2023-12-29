@@ -5,13 +5,19 @@ import axios from 'axios'
 import { Button } from 'react-native-paper'
 import { Auth } from '../AuthContext/Auth'
 import { useNavigation } from '@react-navigation/native'
+import Modal from "react-native-modal";
+
 
 const GetuserForteam = ({ route }) => {
     const { name, id } = route.params
-
+    const { user } = useContext(Auth)
+    const nav = useNavigation()
     const [load, setLoad] = useState(false)
     const [data, setData] = useState([])
     const [team, setTeam] = useState([])
+
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
         setLoad(true)
@@ -35,11 +41,34 @@ const GetuserForteam = ({ route }) => {
                 alert(err)
                 setLoad(false)
             })
-    }, [])
+    }, [isModalVisible])
 
-    const { user } = useContext(Auth)
-    const nav = useNavigation()
+    function Captin(userId) {
+        axios.get(`https://fantasyzon.com/api/user/captin/${id}/${userId}`).then(res => {
+            closeModal()
+        }).catch(err => {
+            alert(err)
+        })
+    }
+    function Deka(userId) {
+        axios.get(`https://fantasyzon.com/api/user/deka/${id}/${userId}`).then(res => {
+            closeModal()
+        }).catch(err => {
+            alert(err)
+        })
+    }
 
+
+    const openModal = (item) => {
+        setSelectedItem(item);
+        setModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setSelectedItem(null);
+        setModalVisible(false);
+    };
+    console.log(selectedItem)
     return (
         <View style={{ flex: 1 }}>
             <Header isBack={true} name={`فريق ${name}`} />
@@ -51,23 +80,45 @@ const GetuserForteam = ({ route }) => {
                             id: team.id
                         })
                     }}
-                    mode='contained' style={{ width: '80%', height: 50, justifyContent: "center", borderRadius: 8, alignSelf: 'center', margin: 5 }}>
+                    mode='contained' style={styles.btn}>
                     اضافة لعيبة الي الفريق
                 </Button>}
-            {load ? <ActivityIndicator size={'large'} color={'red'} />
+            {load ? <ActivityIndicator style={{ flex: 1, justifyContent: 'center' }} size={'large'} color={'red'} />
                 :
                 <FlatList
                     data={data}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
-                        <TouchableOpacity style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                openModal(item)
+                            }}
+                            style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.name}>{item.points}</Text>
                             {item.captin !== 1 ? null : <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/4978/4978025.png' }} />}
+                            {item.deka !== 1 ? null : <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://cdn-icons-png.flaticon.com/128/8431/8431528.png' }} />}
                         </TouchableOpacity>
                     }
                 />
             }
+            <Modal isVisible={isModalVisible}>
+                <View style={{ flex: .5, backgroundColor: '#fff', borderRadius: 4, justifyContent: "space-around" }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 17, textAlign: 'center', }}>{selectedItem !== null ? selectedItem.name : null}</Text>
+                    <Button mode='contained'
+                        style={[styles.btn, { backgroundColor: '#8ce7ff' }]} onPress={() => { Captin(selectedItem.id) }} >
+                        كابتن
+                    </Button>
+                    <Button mode='contained'
+                        style={[styles.btn, { backgroundColor: '#8ce7ff' }]} onPress={() => { Deka(selectedItem.id) }} >
+                        دكة
+                    </Button>
+                    <Button mode='contained'
+                        style={styles.btn} onPress={closeModal} >
+                        اغلاق
+                    </Button>
+                </View>
+            </Modal>
         </View >
     )
 }
@@ -89,5 +140,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         color: '#000'
+    },
+    btn: {
+        width: '80%',
+        height: 50,
+        justifyContent: "center",
+        borderRadius: 8,
+        alignSelf: 'center',
+        margin: 5
     },
 })
