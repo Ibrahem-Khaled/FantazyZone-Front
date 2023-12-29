@@ -91,7 +91,7 @@ const GetuserForteam = ({ route }) => {
                     renderItem={({ item }) =>
                         <TouchableOpacity
                             onPress={() => {
-                                user.team_leader == team.id ? null : openModal(item)
+                                user.team_leader !== team.id ? null : openModal(item)
                             }}
                             style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
                             <Text style={styles.name}>{item.name}</Text>
