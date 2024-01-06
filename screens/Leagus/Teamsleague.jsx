@@ -12,6 +12,7 @@ const TeamsLeague = ({ route }) => {
     const nav = useNavigation()
 
     const [data, setData] = useState([])
+    const [league, setLeague] = useState([])
     const [loading, setloading] = useState(false)
     const [admin, setAdmin] = useState(false)
 
@@ -25,6 +26,8 @@ const TeamsLeague = ({ route }) => {
                 const isAdmin = admins.some(obj => obj.id == user.id);
                 console.log(isAdmin)
                 setAdmin(isAdmin)
+                
+                setLeague(res.data)
                 const sortedData = [...data].sort((a, b) => b.points - a.points);
                 setData(sortedData);
                 setloading(false)
@@ -36,7 +39,6 @@ const TeamsLeague = ({ route }) => {
     useEffect(() => {
         Fechleague()
     }, [])
-
     const tableHead = ['الترتيب', 'اسم الفريق', 'النقاط', 'اجمالي النقاط']
 
     return (
@@ -109,6 +111,8 @@ const TeamsLeague = ({ route }) => {
                             nav.navigate('getUserforTeam', {
                                 id: item.id,
                                 name: item.name,
+                                capten: league.is_capten,
+                                deka: league.is_spare,
                             })
                         }} style={styles.league}>
                             <Text style={styles.dataText}>{++sort}</Text>

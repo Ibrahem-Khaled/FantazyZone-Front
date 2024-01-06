@@ -9,7 +9,7 @@ import Modal from "react-native-modal";
 
 
 const GetuserForteam = ({ route }) => {
-    const { name, id } = route.params
+    const { name, id, capten, deka } = route.params
     const { user } = useContext(Auth)
     const nav = useNavigation()
     const [load, setLoad] = useState(false)
@@ -103,14 +103,19 @@ const GetuserForteam = ({ route }) => {
             <Modal isVisible={isModalVisible}>
                 <View style={{ flex: .5, backgroundColor: '#fff', borderRadius: 4, justifyContent: "space-around" }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 17, textAlign: 'center', }}>{selectedItem !== null ? selectedItem.name : null}</Text>
-                    <Button mode='contained'
+                    {capten == 1 ? <Button
+                        disabled={selectedItem !== null ? (selectedItem.captin == 1 ? true : false) : null}
+                        mode='contained'
                         style={[styles.btn, { backgroundColor: '#8ce7ff' }]} onPress={() => { Captin(selectedItem.id) }} >
                         كابتن
-                    </Button>
-                    <Button mode='contained'
+                    </Button> : null}
+                    {capten == 0 && deka == 0 ? <Text style={{ fontWeight: 'bold', fontSize: 17, textAlign: "center" }}>لا يتوفر دكة ولا كابتن في هذا الدوري</Text> : null}
+                    {deka == 1 ? <Button
+                        disabled={selectedItem !== null ? (selectedItem.deka == 1 ? true : false) : null}
+                        mode='contained'
                         style={[styles.btn, { backgroundColor: '#8ce7ff' }]} onPress={() => { Deka(selectedItem.id) }} >
                         دكة
-                    </Button>
+                    </Button> : null}
                     <Button mode='contained'
                         style={styles.btn} onPress={closeModal} >
                         اغلاق
