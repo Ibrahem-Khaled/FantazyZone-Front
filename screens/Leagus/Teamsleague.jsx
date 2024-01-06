@@ -6,20 +6,25 @@ import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 
 const TeamsLeague = ({ route }) => {
-    const { id, name } = route.params
+    const { id, name, leagueUser } = route.params
     let sort = 0
     const { user } = useContext(Auth)
     const nav = useNavigation()
 
     const [data, setData] = useState([])
     const [loading, setloading] = useState(false)
-
+    const [admin, setAdmin] = useState(false)
 
     const Fechleague = () => {
         setloading(true)
         axios.get(`https://fantasyzon.com/api/get/league/team/${id}`)
             .then(res => {
-                const data = res.data.team
+                const data = res.data.league.team
+                const admins = res.data.league.team_admin
+                console.log(admins)
+                const isAdmin = admins.some(obj => obj.id == user.id);
+                console.log(isAdmin)
+                setAdmin(isAdmin)
                 const sortedData = [...data].sort((a, b) => b.points - a.points);
                 setData(sortedData);
                 setloading(false)
@@ -38,7 +43,7 @@ const TeamsLeague = ({ route }) => {
         <View style={{ flex: 1 }}>
             <Header isBack={true} name={`فرق الدوري ${name}`} />
             <View style={styles.main}>
-                {user.team_leader == 0 ? null
+                {admin == false ? null
                     :
                     <TouchableOpacity onPress={() => {
                         nav.navigate('createTeam', {
@@ -48,10 +53,12 @@ const TeamsLeague = ({ route }) => {
                         <Text style={styles.txt}>انشاء فريق لهذا الدوري</Text>
                     </TouchableOpacity>
                 }
-                {user.leagues_leader == 0 ? null
+                {user.id !== leagueUser ? null
                     :
                     <TouchableOpacity onPress={() => {
-                        nav.navigate('setUserTeamLeader')
+                        nav.navigate('setUserTeamLeader', {
+                            leagueId: id,
+                        })
                     }} style={styles.btn}>
                         <Text style={styles.txt}>من يمكنه انشاء فريق</Text>
                     </TouchableOpacity>
@@ -92,7 +99,7 @@ const TeamsLeague = ({ route }) => {
                     )
                 })}
             </View>
-            {loading ? <ActivityIndicator />
+            {loading ? <ActivityIndicator style={{ flex: 1, justifyContent: "center" }} size={'large'} />
                 :
                 <FlatList
                     data={data}

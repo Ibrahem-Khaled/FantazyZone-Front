@@ -8,13 +8,12 @@ const ShowTeam = ({ route }) => {
     const { id } = route.params
 
     function Update(userid) {
-        axios.post(`https://fantasyzon.com/api/update/user/${userid}`, {
-            team_id: id,
-        }).then(res => {
-            alert('done!')
-        }).catch(err => {
-            alert(err)
-        })
+        axios.post(`https://fantasyzon.com/api/add/user/teams/${id}/${userid}`, {})
+            .then(res => {
+                alert('done!')
+            }).catch(err => {
+                alert(err)
+            })
     }
 
     const [fnid, setFnid] = useState(0)
@@ -49,7 +48,7 @@ const ShowTeam = ({ route }) => {
             />
             {load ? <ActivityIndicator color={'red'} size={'large'} />
                 :
-                <TouchableOpacity onPress={() => { data.team_id !== null ? alert('هذا في فريق من فضلك ادخل FN ID اخر') : Update(data.id) }}
+                <TouchableOpacity onPress={() => { Update(data.id) }}
                     style={[styles.user, { backgroundColor: data.team_id !== null ? 'green' : 'gray' }]}>
                     <Text style={{ fontWeight: 'bold', color: '#fff' }}>{data.name}</Text>
                     <Text style={{ fontWeight: 'bold', color: '#fff' }}>{data.team_id !== null ? 'هذا بالفعل في فريق' : 'ليس  في فريق'}</Text>
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 60,
         margin: 5,
-        backgroundColor:'gray',
+        backgroundColor: 'gray',
         alignSelf: 'center',
         borderRadius: 8,
         alignItems: 'center',

@@ -5,11 +5,13 @@ import axios from 'axios'
 import { Button } from 'react-native-paper'
 
 
-const SetUserTeamLeader = () => {
+const SetUserTeamLeader = ({ route }) => {
+    const { leagueId } = route.params
 
     function Update(userid) {
-        axios.post(`https://fantasyzon.com/api/update/user/${userid}`, {
-            team_leader: 1,
+        axios.post(`https://fantasyzon.com/api/setRule/team`, {
+            league_id: leagueId,
+            user_id: userid,
         }).then(res => {
             alert('done!')
         }).catch(err => {

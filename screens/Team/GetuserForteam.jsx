@@ -72,7 +72,7 @@ const GetuserForteam = ({ route }) => {
     return (
         <View style={{ flex: 1 }}>
             <Header isBack={true} name={`فريق ${name}`} />
-            {user.team_leader !== team.id ? null
+            {user.id !== team.user_id ? null
                 :
                 <Button
                     onPress={() => {
@@ -90,9 +90,7 @@ const GetuserForteam = ({ route }) => {
                     keyExtractor={item => item.id}
                     renderItem={({ item }) =>
                         <TouchableOpacity
-                            onPress={() => {
-                                openModal(item)
-                            }}
+                            onPress={() => { user.id !== team.user_id ? null : openModal(item) }}
                             style={[styles.main, { backgroundColor: item.captin == 0 ? '#ff6b7a' : '#fffbce' }]}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.name}>{item.points}</Text>

@@ -9,7 +9,6 @@ import { Button } from 'react-native-paper'
 const Index = ({ route }) => {
 
     const { name, id } = route.params
-
     const { user } = useContext(Auth)
     const nav = useNavigation()
 
@@ -73,6 +72,7 @@ const Index = ({ route }) => {
                             nav.navigate('leagueTeam', {
                                 id: item.id,
                                 name: item.name,
+                                leagueUser: item.user_id,
                             })
                         }} style={styles.league}>
                             <Image style={{ width: 70, height: 70 }} source={{ uri: item.status !== 'league' ? 'https://cdn-icons-png.flaticon.com/128/7960/7960328.png' : 'https://cdn-icons-png.flaticon.com/128/12567/12567031.png' }} />
